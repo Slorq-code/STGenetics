@@ -209,7 +209,31 @@ class _BurgerOptionsScreenState extends State<BurgerOptionsScreen> {
                                 TextButton(
                                   onPressed: () {
                                     // Perform payment and create order
-                                    processPaymentAndCreateOrder();
+                                    // processPaymentAndCreateOrder();
+
+                                    Navigator.pop(context);
+                                    showDialog(
+                                      context: context,
+                                      builder: (BuildContext context) {
+                                        return AlertDialog(
+                                          title: const Text('Order in Process'),
+                                          content: Text(
+                                              'Thank you, $customerName! Your order is being processed.'),
+                                          actions: [
+                                            TextButton(
+                                              onPressed: () {
+                                                setState(() {
+                                                  cartItems.clear();
+                                                  customerName = '';
+                                                });
+                                                Navigator.pop(context);
+                                              },
+                                              child: const Text('OK'),
+                                            ),
+                                          ],
+                                        );
+                                      },
+                                    );
                                   },
                                   child: const Text('Pay'),
                                 ),
@@ -261,7 +285,6 @@ class _BurgerOptionsScreenState extends State<BurgerOptionsScreen> {
       cartItems.clear();
       customerName = '';
     });
-
     Navigator.pop(context); // Cerrar la modal del carrito de compras
   }
 }
