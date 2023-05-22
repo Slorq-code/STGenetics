@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'Screens/burger_options_screen.dart';
+import 'Screens/Splash.dart';
 
 void main() {
   runApp(const MyApp());
@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: BurgerOptionsScreen(),
+      home: const SplashScreen(),
     );
   }
 }

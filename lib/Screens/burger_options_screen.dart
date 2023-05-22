@@ -1,8 +1,10 @@
+// ignore_for_file: library_private_types_in_public_api
+
 import 'package:flutter/material.dart';
 import '../Widgets/burger_card.dart';
 
 class BurgerOptionsScreen extends StatefulWidget {
-  BurgerOptionsScreen({Key? key}) : super(key: key);
+  const BurgerOptionsScreen({Key? key}) : super(key: key);
 
   @override
   _BurgerOptionsScreenState createState() => _BurgerOptionsScreenState();
@@ -53,7 +55,6 @@ class _BurgerOptionsScreenState extends State<BurgerOptionsScreen> {
   void addToCart(BurgerCard burger) {
     setState(() {
       if (burger.category == 'sandwich' && containsCategory('sandwich')) {
-        // Error: Duplicate sandwich
         showDialog(
           context: context,
           builder: (BuildContext context) {
@@ -73,7 +74,6 @@ class _BurgerOptionsScreenState extends State<BurgerOptionsScreen> {
         );
         return;
       }
-
       cartItems.add(burger);
     });
   }
@@ -91,6 +91,7 @@ class _BurgerOptionsScreenState extends State<BurgerOptionsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         title: const Text('Burger Options'),
       ),
       body: Column(
@@ -208,9 +209,10 @@ class _BurgerOptionsScreenState extends State<BurgerOptionsScreen> {
                               actions: [
                                 TextButton(
                                   onPressed: () {
-                                    // Perform payment and create order
-                                    // processPaymentAndCreateOrder();
-
+                                    setState(() {
+                                      cartItems.clear();
+                                      customerName = '';
+                                    });
                                     Navigator.pop(context);
                                     showDialog(
                                       context: context,
@@ -222,10 +224,6 @@ class _BurgerOptionsScreenState extends State<BurgerOptionsScreen> {
                                           actions: [
                                             TextButton(
                                               onPressed: () {
-                                                setState(() {
-                                                  cartItems.clear();
-                                                  customerName = '';
-                                                });
                                                 Navigator.pop(context);
                                               },
                                               child: const Text('OK'),
@@ -259,32 +257,5 @@ class _BurgerOptionsScreenState extends State<BurgerOptionsScreen> {
         child: const Icon(Icons.shopping_cart),
       ),
     );
-  }
-
-  void processPaymentAndCreateOrder() {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: const Text('Order in Process'),
-          content:
-              Text('Thank you, $customerName! Your order is being processed.'),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              child: const Text('OK'),
-            ),
-          ],
-        );
-      },
-    );
-
-    setState(() {
-      cartItems.clear();
-      customerName = '';
-    });
-    Navigator.pop(context); // Cerrar la modal del carrito de compras
   }
 }
